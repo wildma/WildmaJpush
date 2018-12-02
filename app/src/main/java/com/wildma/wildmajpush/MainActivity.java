@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import static com.wildma.wildmajpush.TagAliasOperatorHelper.ACTION_DELETE;
 import static com.wildma.wildmajpush.TagAliasOperatorHelper.ACTION_SET;
 import static com.wildma.wildmajpush.TagAliasOperatorHelper.TagAliasBean;
 import static com.wildma.wildmajpush.TagAliasOperatorHelper.sequence;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
         registerBroadcastreceiver();
     }
 
+    /**
+     * 设置别名
+     */
     public void setAlias(View view) {
         String alias = ((EditText) findViewById(R.id.et_alias)).getText().toString();
         if (!TextUtils.isEmpty(alias)) {
@@ -35,6 +39,17 @@ public class MainActivity extends AppCompatActivity {
             tagAliasBean.isAliasAction = true;
             TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);
         }
+    }
+
+    /**
+     * 删除别名
+     */
+    public void deleteAlias(View view) {
+        TagAliasBean tagAliasBean = new TagAliasBean();
+        tagAliasBean.action = ACTION_DELETE;
+        sequence++;
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);
     }
 
     /**
@@ -56,4 +71,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(mMessageBroadcastreceiver);//解注册广播
     }
+
 }
